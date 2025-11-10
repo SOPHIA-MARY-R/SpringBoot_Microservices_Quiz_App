@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.sophia.quiz_app.model.Question;
 import com.sophia.quiz_app.model.QuestionWrapper;
 import com.sophia.quiz_app.model.Quiz;
+import com.sophia.quiz_app.model.Response;
 import com.sophia.quiz_app.repository.QuestionRepository;
 import com.sophia.quiz_app.repository.QuizRepository;
 
@@ -60,4 +61,29 @@ public class QuizService {
         return new ResponseEntity<>(questionsForUsers, HttpStatus.OK);
     }
 
+    public ResponseEntity<Integer> submitQuizAndGetScore(int id, List<Response> responses) {
+        Optional<Quiz> quiz = quizRepository.findById(id);
+        List<Question> questions = quiz.get().getQuestions();
+
+        int score = 0;
+        for(Response response : responses){
+            String providedAnswer = response.getResponse();
+            String expectedAnswer = getExpectedAnswerForQuestion(response.getId(), questions);
+
+            if(providedAnswer.equals(expectedAnswer)){
+                score++;
+            }
+        }
+
+        return new ResponseEntity<Integer>(score, HttpStatus.ACCEPTED);
+    }
+
+    private String getExpectedAnswerForQuestion(int id, List<Question> questions){
+        for(Question question : questions){
+            if(question.getId() == id){
+                return question.getAnswer();
+            }
+        }
+        return null;//question does not exist which is not possible as in the UI, we can fill choices for questions that exists
+    }
 }

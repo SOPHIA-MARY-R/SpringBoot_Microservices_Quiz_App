@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sophia.quiz_app.model.Question;
 import com.sophia.quiz_app.model.QuestionWrapper;
+import com.sophia.quiz_app.model.Response;
 import com.sophia.quiz_app.service.QuizService;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -35,6 +37,11 @@ public class QuizController {
     @GetMapping("/get/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuizById(@PathVariable int id) {
         return service.getQuizById(id);
+    }
+
+    @PostMapping("/submit/{id}")
+    public ResponseEntity<Integer> submitQuizAndGetScore(@PathVariable int id, @RequestBody List<Response> responses){
+        return service.submitQuizAndGetScore(id, responses);
     }
     
 }

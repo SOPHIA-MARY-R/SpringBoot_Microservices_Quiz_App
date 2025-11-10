@@ -2,7 +2,6 @@ package com.sophia.quiz_app.model;
 
 import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +16,7 @@ public class QuestionWrapper {
     private String choice2;
     private String choice3;
     private String choice4;
-    
+
     public QuestionWrapper(int id, String question, String choice1, String choice2, String choice3, String choice4) {
         this.id = id;
         this.question = question;
