@@ -1,0 +1,13 @@
+package com.sophia.quiz_app.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.sophia.quiz_app.model.Question;
+
+@Repository
+public interface QuestionRepository extends JpaRepository<Question, Integer>{
+    List<Question> findByCategory(String category);//as category is also a field, JPA is smart enough to fetch the data based on the category provided
+}
